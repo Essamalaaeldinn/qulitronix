@@ -11,9 +11,12 @@ const bootstrap = async () => {
     routerHandler(app);
 
     // ✅ Ensure a response is sent when accessing the root URL
-    app.get("/", (req, res) => {
-        res.send("🚀 Server is Running and Database Connected!");
+    app.get("/test", (req, res) => {
+        res.status(200).send("✅ Server is working!");
     });
+
+    await database_connection();
+    routerHandler(app);
 
     return app;  // ✅ Return Express app instead of listening inside this function
 };
