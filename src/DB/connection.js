@@ -1,18 +1,22 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-dotenv.config();  // Load environment variables
+dotenv.config();
+
+let isConnected = false;  // ✅ Track connection status
 
 export const database_connection = async () => {
+    if (isConnected) {
+        console.log("✅ Using existing database connection");
+        return;
+    }
+    
     try {
         await mongoose.connect(process.env.MONGO_URI);
-        console.log('✅ Database Connected Successfully!');
+        isConnected = true;  // ✅ Mark as connected
+        console.log("✅ Database Connected Successfully!");
     } catch (error) {
-        console.error('❌ Error connecting to the database:', error);
+        console.error("❌ Database Connection Failed:", error);
         process.exit(1);
     }
 };
-
-// ✅ Add this to check if the script runs
-console.log("🔄 Trying to connect to MongoDB...");
-database_connection();
